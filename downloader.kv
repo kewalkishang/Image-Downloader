@@ -1,0 +1,23 @@
+<Design>:
+	BoxLayout:
+		orientation: 'vertical'
+
+
+		BoxLayout:
+			height:"40dp"
+			size_hint_y: None
+			
+			TextInput:
+				size_hint_x:50
+				id:inputText
+				text: "hello"
+
+			Button:
+				size_hint_x:20
+				id: clickButton
+				text: "Click this!"
+				on_press: root.change_text(inputText)
+
+
+		ListView:
+			item_strings:["hi","hello","namaste","konichiva"]
