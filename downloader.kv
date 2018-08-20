@@ -1,23 +1,38 @@
 <Design>:
 	BoxLayout:
 		orientation: 'vertical'
+        search_input:inputText
+        padding:70
 
+		Label:
+			text:"[u][b]ImageNet Downloader[/b][/u]"
+			height:"200dp"
+            size_hint_y: None
+            font_size: "45dp"
+            markup: True
 
 		BoxLayout:
 			height:"40dp"
 			size_hint_y: None
 			
+
+
+
 			TextInput:
 				size_hint_x:50
+		
 				id:inputText
-				text: "hello"
+				hint_text: "Search ImageNet"
 
 			Button:
 				size_hint_x:20
 				id: clickButton
-				text: "Click this!"
+				text: "Search!"
 				on_press: root.change_text(inputText)
 
 
-		ListView:
-			item_strings:["hi","hello","namaste","konichiva"]
+		Label:
+			text:"ImageNet is an image database organized according to the WordNet hierarchy (currently only the nouns), in which each node of the hierarchy is depicted by hundreds and thousands of images. Currently we have an average of over five hundred images per node. "
+			text_size: self.width*0.75, None
+    		
+   			

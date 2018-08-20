@@ -1,7 +1,9 @@
+#import nltk
+#nltk.download()
 import urllib.request
 from bs4 import BeautifulSoup
 import requests
-
+from nltk.corpus import wordnet as wn
 
 
 def downloadSingle(url,path):
@@ -40,24 +42,22 @@ def getSynlist():
     strl=str(links)
     print(strl)
     
+def getSynsetId(his):
+    name= his+'.n.01'
+    ss = wn.synset(name)
+    #print(ss)
+    Synid = str(ss.offset()).zfill(8) + '-' + ss.pos()
+    print(Synid)
     
     
 
 """downloadSingle("http://farm1.static.flickr.com/64/177422189_2e53d16942.jpg",r"F:\00000007.jpg")"""
 
 
-getImageLinks("http://image-net.org/api/text/imagenet.synset.geturls?wnid=n02506783")
+#getImageLinks("http://image-net.org/api/text/imagenet.synset.geturls?wnid=n02506783")
 
-print(linkslist[2])
+#downloadFromImageNet()
 
-downloadFromImageNet()
+#getSynlist()
 
-getSynlist()
-
-ss = wn.synset('african_elephant.n.01')
-print(ss)
-offset = str(ss.offset()).zfill(8) + '-' + ss.pos()
-print(offset)
-
-import nltk
-nltk.download()
+#getSynsetId()
