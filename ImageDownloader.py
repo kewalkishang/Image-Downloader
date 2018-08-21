@@ -10,15 +10,16 @@ def downloadSingle(url,path):
   urllib.request.urlretrieve(url,path)
 
 
-def getImageLinks(url):
+def getImageLinks(sid):
     global linkslist
+    url='http://image-net.org/api/text/imagenet.synset.geturls?wnid=n'+sid
     r=requests.get(url)
     soup=BeautifulSoup(r.content,'lxml')
-    html=soup.prettify()
-    print(html)
+    #html=soup.prettify()
+    #print(html)
     links=soup.find('p')
     strl=str(links)
-    print(type(strl))
+   # print(type(strl))
     """print(g_data)"""
     linkslist=strl.splitlines();
     print(len(linkslist))
@@ -44,10 +45,16 @@ def getSynlist():
     
 def getSynsetId(his):
     name= his+'.n.01'
-    ss = wn.synset(name)
+    try:
+         ss = wn.synset(name)
+         Synid = str(ss.offset()).zfill(8) + '-' + ss.pos()
+         print(Synid)
+    except:
+        print("This is an error message!")
+        Synid="0000-n"
     #print(ss)
-    Synid = str(ss.offset()).zfill(8) + '-' + ss.pos()
-    print(Synid)
+   
+    return Synid
     
     
 
@@ -60,4 +67,4 @@ def getSynsetId(his):
 
 #getSynlist()
 
-#getSynsetId()
+#syn = getSynsetId("gog")
