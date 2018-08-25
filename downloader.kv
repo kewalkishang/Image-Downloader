@@ -1,4 +1,28 @@
-<Design>:
+#:import lv kivy.uix.listview
+#:import la kivy.adapters.listadapter
+
+<FolderSelector>:
+    drives_list: drives_list
+    file_chooser: file_chooser
+    BoxLayout:
+        orientation: 'vertical'      
+        ListView:
+            id: drives_list
+            height:"100dp"
+            size_hint_y: None
+            
+            adapter:
+                la.ListAdapter(data=root.get_win_drives(), selection_mode='single', allow_empty_selection=False, cls=lv.ListItemButton)
+        FileChooserListView:
+            id: file_chooser
+        Button:
+            text: "Select Folder"
+            height:"60dp"
+            size_hint_y: None
+            on_release: root.selectfolder(file_chooser.path, file_chooser.selection)
+
+
+<SearchGUI>:
 	BoxLayout:
 		orientation: 'vertical'
         search_input:inputText
@@ -28,11 +52,29 @@
 				size_hint_x:20
 				id: clickButton
 				text: "Search!"
-				on_press: root.change_text(inputText)
+				on_press: root.search(inputText)
 
 
 		Label:
 			text:"ImageNet is an image database organized according to the WordNet hierarchy (currently only the nouns), in which each node of the hierarchy is depicted by hundreds and thousands of images. Currently we have an average of over five hundred images per node. "
 			text_size: self.width*0.75, None
     		
-   			
+<DownloaderGUI>:
+	
+    BoxLayout:
+		height:"40dp"
+		size_hint_y: None
+			
+		Label:
+			size_hint_x:50		
+			id:selectText
+			text: root.folder_text
+
+		Button:
+			size_hint_x:20
+			id: SelectButton
+			text: "Select!"
+			on_press: root.GoBackToSearch()
+
+	
+    		

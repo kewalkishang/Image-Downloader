@@ -32,16 +32,6 @@ def downloadFromImageNet():
             path= r"F:\s"+str(ite)+".jpg"
             urllib.request.urlretrieve(linkslist[ite],path)
     
-
-def getSynlist():
-    global contents
-    r=requests.get("http://image-net.org/synset?")
-    soup=BeautifulSoup(r.content,'lxml')
-    """html=soup.prettify()
-    print(html)"""
-    links=soup.find_all('wnid')
-    strl=str(links)
-    print(strl)
     
 def getSynsetId(his):
     name= his+'.n.01'
