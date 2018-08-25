@@ -24,13 +24,12 @@ def getImageLinks(sid):
     linkslist=strl.splitlines();
     print(len(linkslist))
     print(linkslist[0])
+    return linkslist
     
 
-def downloadFromImageNet():
-    for ite in range(4):
-        if ite!=0:
-            path= r"F:\s"+str(ite)+".jpg"
-            urllib.request.urlretrieve(linkslist[ite],path)
+def downloadFromImageNet(imagelist, num , path):
+    
+    urllib.request.urlretrieve(imagelist[num],path)
     
     
 def getSynsetId(his):

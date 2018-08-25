@@ -60,21 +60,62 @@
 			text_size: self.width*0.75, None
     		
 <DownloaderGUI>:
-	
-    BoxLayout:
-		height:"40dp"
-		size_hint_y: None
-			
-		Label:
-			size_hint_x:50		
-			id:selectText
-			text: root.folder_text
+	BoxLayout:
+		orientation: 'vertical'
+        padding: 90, 90, 90, 200
+        spacing:"50dp"
+        
 
-		Button:
-			size_hint_x:20
+
+        Button:
+        	height:"40dp"
+			size_hint_y: None
 			id: SelectButton
-			text: "Select!"
-			on_press: root.GoBackToSearch()
+			text: "Search"
+			on_press: root.GoBackToSearch() 
+		Label:
+			id:ImageCount
+			height:"60dp"
+			size_hint_y: None
+			text:"Found 60 images of this"
+
+		BoxLayout:
+			height:"40dp"
+			size_hint_y: None
+			
+			Label:
+				size_hint_x:50		
+				id:selectText
+				text: "Select folder for images"
+				color: 1,0,0,1
+
+			Button:
+				size_hint_x:20
+				id: SelectButton
+				text: "Select!"
+				on_press: root.GotoSelector()
+
+		BoxLayout:
+			height:"40dp"
+			size_hint_y: None
+			
+			ProgressBar:
+        		id: pb
+        		size_hint_x: 70
+        		max:100
+        		value:10
+        		
+        		
+        		
+			Button: 
+				id:downloadb
+				size_hint_x: 20
+				text: "Download!"
+				disabled: True
+				on_press: root.download()
+		
+
+
 
 	
     		

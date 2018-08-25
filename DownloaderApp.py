@@ -7,7 +7,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
-from ImageDownloader import getSynsetId , getImageLinks
+from ImageDownloader import getSynsetId , getImageLinks,downloadFromImageNet
 from kivy.lang import Builder
 from kivy.utils import platform 
 
@@ -34,15 +34,19 @@ class SearchGUI(BoxLayout):
         if userInput.text:
             si = userInput.text
             siu= si.replace(" ","_")
+            global test
+            test= siu
             #print("si -"+si+" siu -"+siu+" siu")
             sid=getSynsetId(siu)
             sidn,n=sid.split("-")
             if sidn=="0000":
                 self.PopupMsg("Retry!","Unknown Noun!")
             else:
-                getImageLinks(sidn)
+                self.imagelinks=getImageLinks(sidn)
+                global ima
+                ima= self.imagelinks
                 #self.dp = DownlGUI()
-                self.ResetGUI()
+                self.ResetGUI(si,self.imagelinks)
                 print("here ma")
                 
         else:
@@ -50,24 +54,51 @@ class SearchGUI(BoxLayout):
             
         #http://image-net.org/api/text/imagenet.synset.geturls?
     
-    def ResetGUI(self):
+    def ResetGUI(self,imageName, imagelinks):
         print("in resset")
         self.clear_widgets()
-        self.add_widget(DownloaderGUI())
-        #self.add_widget(self.dp)   
+        self.dg= DownloaderGUI()
+        self.dg.Updatetexts()
+        self.add_widget(self.dg)
+           
 
 class DownloaderGUI(BoxLayout):
     
-    folder_text="Asdas"
-    def download():
+    
+    imageslist = []
+    imageN = "no name"
+    spath="path"
+    def Updatetexts(self):
+        self.ids.ImageCount.text="Found "+str(len(ima))+" images of "+ test 
+       
+    #folder_text="Asdas"
+    def download(self):
         print("bada ka print")
-        
-    def GoBackToSearch(self):
+        for n in range(1,len(ima)):
+             fpath=self.spath+"\\"+test+""+str(n)+".jpg"
+             print(fpath)
+             downloadFromImageNet(ima, n , fpath)
+             self.ids.pb.value = int((n/10)*100)
+             print("value"+str(self.ids.pb.value) )
+             
+                                    
+                                    
+    def GotoSelector(self):
         self.clear_widgets()
         self.add_widget(FolderSelector())
+    
+    def GoBackToSearch(self):
+        self.clear_widgets()
+        self.add_widget(SearchGUI())
+        
     def setPath(self,path):
-        print("setpath "+ path)  
-        self.folder_text="asdasD"
+        #print("setpath "+ path)  
+        #print(self.ids.selectText.text)#="working "
+        self.ids.selectText.text=path
+        self.ids.downloadb.disabled=False
+        self.spath=path
+        #self.clear_widgets()
+        #self.add_widget(DownloaderGUI())
         #print("As"+ self.folder_text.text)
         #self.folder_path=path
         #self.folder_text="hasadsd"
@@ -97,15 +128,18 @@ class FolderSelector(BoxLayout):
     
     def selectfolder(self, path, filename):
         self.clear_widgets()
-        self.add_widget(DownloaderGUI())
+        
         self.fs= DownloaderGUI()
         self.fs.setPath(path)
+        self.fs.Updatetexts()
+        self.add_widget(self.fs)
         print(path)    
                 
                 
                 
 class DownloaderApp(App):
     def build(self):
-        return DownloaderGUI()
+        
+        return SearchGUI()
 
 DownloaderApp().run()
