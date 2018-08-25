@@ -28,8 +28,11 @@ def getImageLinks(sid):
     
 
 def downloadFromImageNet(imagelist, num , path):
+    try:
+        urllib.request.urlretrieve(imagelist[num],path)
+    except:
+        pass
     
-    urllib.request.urlretrieve(imagelist[num],path)
     
     
 def getSynsetId(his):

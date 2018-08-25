@@ -10,7 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 from ImageDownloader import getSynsetId , getImageLinks,downloadFromImageNet
 from kivy.lang import Builder
 from kivy.utils import platform 
-
+import urllib.request
 
 class SearchGUI(BoxLayout):
     popup=None
@@ -69,17 +69,27 @@ class DownloaderGUI(BoxLayout):
     imageN = "no name"
     spath="path"
     def Updatetexts(self):
+        self.ids.pb.value = 50
         self.ids.ImageCount.text="Found "+str(len(ima))+" images of "+ test 
        
     #folder_text="Asdas"
     def download(self):
-        print("bada ka print")
-        for n in range(1,len(ima)):
+        self.ids.downloadb.text="Downloading.."
+        self.ids.downloadb.disabled=True
+        #self.imageDownload()
+            
+            
+    def imageDownload(self):
+          for n in range(0,len(ima)):
+             #self.ids.pb.value= n         
              fpath=self.spath+"\\"+test+""+str(n)+".jpg"
-             print(fpath)
-             downloadFromImageNet(ima, n , fpath)
-             self.ids.pb.value = int((n/10)*100)
-             print("value"+str(self.ids.pb.value) )
+             #print(fpath)
+             try:
+                  urllib.request.urlretrieve(ima[n],fpath)
+             except:
+                 pass
+         
+             
              
                                     
                                     
@@ -92,16 +102,10 @@ class DownloaderGUI(BoxLayout):
         self.add_widget(SearchGUI())
         
     def setPath(self,path):
-        #print("setpath "+ path)  
-        #print(self.ids.selectText.text)#="working "
         self.ids.selectText.text=path
         self.ids.downloadb.disabled=False
         self.spath=path
-        #self.clear_widgets()
-        #self.add_widget(DownloaderGUI())
-        #print("As"+ self.folder_text.text)
-        #self.folder_path=path
-        #self.folder_text="hasadsd"
+       
         
    
          
