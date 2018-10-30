@@ -11,6 +11,7 @@ from ImageDownloader import getSynsetId , getImageLinks,downloadFromImageNet
 from kivy.lang import Builder
 from kivy.utils import platform 
 import urllib.request
+from threading import Thread
 
 class SearchGUI(BoxLayout):
     popup=None
@@ -69,27 +70,52 @@ class DownloaderGUI(BoxLayout):
     imageN = "no name"
     spath="path"
     def Updatetexts(self):
-        self.ids.pb.value = 50
-        self.ids.ImageCount.text="Found "+str(len(ima))+" images of "+ test 
+        self.ids.pb.value = 0
+        self.ids.ImageCount.text="Found "+str(len(ima))+" images of "+ test
+
        
     #folder_text="Asdas"
     def download(self):
         self.ids.downloadb.text="Downloading.."
         self.ids.downloadb.disabled=True
-        #self.imageDownload()
+        #self.ids.pb.value = 50
+        self.imageDownload()
             
             
     def imageDownload(self):
-          for n in range(0,len(ima)):
-             #self.ids.pb.value= n         
-             fpath=self.spath+"\\"+test+""+str(n)+".jpg"
-             #print(fpath)
-             try:
-                  urllib.request.urlretrieve(ima[n],fpath)
-             except:
-                 pass
+          #self.clear_widgets()
+          #self.ids.pb.value = 1
+          self.thread2 = Thread(target=self.downloadImages, args=())
+          self.thread2.daemon=True;
+          self.thread2.start()
+          self.thread = Thread(target=self.updateProgressBar, args=())
+          self.thread.daemon = True;
+          self.thread.start()
+
          
-             
+    def updateProgressBar(self):
+        print("hi from rest");
+        self.ids.pb.value = 0
+        while self.ids.pb.value<100 :
+            self.ids.pb.value =  (ga/len(ima))*100;
+            print("rest1 ga " + str(ga))
+
+
+
+    def downloadImages(self):
+        global ga
+        for n in range(0, len(ima)):
+            ga=n
+            print("ga "+str(ga))
+            fpath = self.spath + "\\" + test + "" + str(n) + ".jpg"
+            print(fpath)
+            try:
+                urllib.request.urlretrieve(ima[n], fpath)
+            except:
+                pass
+
+
+
              
                                     
                                     

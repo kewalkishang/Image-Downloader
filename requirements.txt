@@ -1,0 +1,6 @@
+pywin32==223
+kivy.deps.sdl2==0.1.17
+requests==2.18.4
+nltk==3.2.3
+beautifulsoup4==4.6.3
+kivy==1.10.1
